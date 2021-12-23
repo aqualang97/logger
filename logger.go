@@ -1,50 +1,48 @@
-package logger
+package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
 
 var formatTime = time.Now().Format(time.RFC1123)
 
-func RegInfo(email string) {
-	fmt.Println("---INFO---\n", formatTime, "user ", email, "registered successfully!")
+func Info(file *os.File, message string, a ...interface{}) {
+	message = "---INFO---\n" + formatTime + "\n" + message + "\n---INFO---\n\n"
+	fmt.Fprintf(file, message, a...)
 }
 
-func RegErr(email string, err error) {
-	fmt.Println("---ERROR---\n", formatTime, "user ", email, "can't register with\n", err)
+func Warning(file *os.File, message string, a ...interface{}) {
+	message = "---WARN---\n" + formatTime + "\n" + message + "\n---WARN---\n\n"
+	fmt.Fprintf(file, message, a...)
 }
 
-func ChangePassInfo(email string) {
-	fmt.Println("---INFO---\n", formatTime, "user ", email, "changed successfully!")
+func Debug(file *os.File, message string, a ...interface{}) {
+	message = "---DEBUG---\n" + formatTime + "\n" + message + "\n---DEBUG---\n\n"
+	fmt.Fprintf(file, message, a...)
 }
 
-func ChangePassErr(email string, err error) {
-	fmt.Println("---ERROR---\n", formatTime, "user ", email, "can't change with\n", err)
+func Error(file *os.File, message string, a ...interface{}) {
+	message = "---ERROR---\n" + formatTime + "\n" + message + "\n---ERROR---\n\n"
+	fmt.Fprintf(file, message, a...)
 }
 
-func DBErr(message string, err error) {
-	fmt.Println("---ERROR---\n", formatTime, message, "\n", err)
-}
+func main() {
+	file, err := os.Create("logfile")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer file.Close()
 
-func PaidInfo(email string, payment float32) {
-	fmt.Println("---INFO---\n", formatTime, "user ", email, " successfully paid ", payment)
-}
+	msgInfo := "User %s, payment %.2f\n%s"
+	Info(file, msgInfo, "email", 123.123, "SUCCESSFUL")
+	msgErr := "User %s has reg err with \n%s"
+	Error(file, msgErr, "email", "ERROR")
+	msgDebug := "User %s reg success but \n%s"
+	Debug(file, msgDebug, "email", "DEBUG MSG")
+	msgWarn := "User %s reg success but \n%s"
+	Warning(file, msgWarn, "email", "WARNING MSG")
 
-func PaidErr(email string, payment float32, err error) {
-	fmt.Println("---ERROR---\n", formatTime, "user ", email, "  payment failed ", payment, "\n", err)
-}
-
-func PaidWarning(message, email string, payment float32) {
-	fmt.Printf("---WARN---\n%s \nUser %s, payment %.2f\n%s\n---WARN---", formatTime, email, payment, message)
-}
-
-func ApproveOrderInfo(email, address, payment, contact string) {
-	fmt.Println("---INFO---\n", formatTime, "user ", email, " order successfully approved with address=",
-		address, " payment=", payment, " contact: ", contact)
-}
-
-func ApproveOrderErr(email, payment string, err error) {
-	fmt.Println("---ERROR---\n", formatTime, "user ", email,
-		" with payment=", payment, " order not approved with error \n", err)
 }
