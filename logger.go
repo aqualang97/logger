@@ -1,4 +1,4 @@
-package main
+package logger
 
 import (
 	"fmt"
@@ -7,10 +7,12 @@ import (
 )
 
 var formatTime = time.Now().Format(time.RFC1123)
+var fileHere *os.File
 
 func Info(file *os.File, message string, a ...interface{}) {
 	message = "---INFO---\n" + formatTime + "\n" + message + "\n---INFO---\n\n"
 	fmt.Fprintf(file, message, a...)
+
 }
 
 func Warning(file *os.File, message string, a ...interface{}) {
@@ -28,6 +30,11 @@ func Error(file *os.File, message string, a ...interface{}) {
 	fmt.Fprintf(file, message, a...)
 }
 
+func TakeFile(file *os.File) {
+	fileHere = file
+}
+
+/*
 func main() {
 	file, err := os.Create("logfile")
 	if err != nil {
@@ -46,3 +53,4 @@ func main() {
 	Warning(file, msgWarn, "email", "WARNING MSG")
 
 }
+*/

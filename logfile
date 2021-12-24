@@ -1,0 +1,24 @@
+---INFO---
+Thu, 23 Dec 2021 17:22:49 EET
+User email, payment 123.12
+SUCCESSFUL
+---INFO---
+
+---ERROR---
+Thu, 23 Dec 2021 17:22:49 EET
+User email has reg err with 
+ERROR
+---ERROR---
+
+---DEBUG---
+Thu, 23 Dec 2021 17:22:49 EET
+User email reg success but 
+DEBUG MSG
+---DEBUG---
+
+---WARN---
+Thu, 23 Dec 2021 17:22:49 EET
+User email reg success but 
+WARNING MSG
+---WARN---
+
