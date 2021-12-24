@@ -9,25 +9,25 @@ import (
 var formatTime = time.Now().Format(time.RFC1123)
 var fileHere *os.File
 
-func Info(file *os.File, message string, a ...interface{}) {
+func Info(message string, a ...interface{}) {
 	message = "---INFO---\n" + formatTime + "\n" + message + "\n---INFO---\n\n"
-	fmt.Fprintf(file, message, a...)
+	fmt.Fprintf(fileHere, message, a...)
 
 }
 
-func Warning(file *os.File, message string, a ...interface{}) {
+func Warning(message string, a ...interface{}) {
 	message = "---WARN---\n" + formatTime + "\n" + message + "\n---WARN---\n\n"
-	fmt.Fprintf(file, message, a...)
+	fmt.Fprintf(fileHere, message, a...)
 }
 
-func Debug(file *os.File, message string, a ...interface{}) {
+func Debug(message string, a ...interface{}) {
 	message = "---DEBUG---\n" + formatTime + "\n" + message + "\n---DEBUG---\n\n"
-	fmt.Fprintf(file, message, a...)
+	fmt.Fprintf(fileHere, message, a...)
 }
 
-func Error(file *os.File, message string, a ...interface{}) {
+func Error(message string, a ...interface{}) {
 	message = "---ERROR---\n" + formatTime + "\n" + message + "\n---ERROR---\n\n"
-	fmt.Fprintf(file, message, a...)
+	fmt.Fprintf(fileHere, message, a...)
 }
 
 func TakeFile(file *os.File) {
