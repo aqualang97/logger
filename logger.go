@@ -9,32 +9,41 @@ import (
 var formatTime = time.Now().Format(time.RFC1123)
 var fileHere *os.File
 
-func Info(message string, a ...interface{}) {
+type logger struct {
+	FileToWrite *os.File
+}
+
+func (thisLogger logger) Info(message string, a ...interface{}) {
 	message = "---INFO---\n" + formatTime + "\n" + message + "\n---INFO---\n\n"
-	fmt.Fprintf(fileHere, message, a...)
+	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
 
 }
 
-func Warning(message string, a ...interface{}) {
+func (thisLogger logger) Warning(message string, a ...interface{}) {
 	message = "---WARN---\n" + formatTime + "\n" + message + "\n---WARN---\n\n"
-	fmt.Fprintf(fileHere, message, a...)
+	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
 }
 
-func Debug(message string, a ...interface{}) {
+func (thisLogger logger) Debug(message string, a ...interface{}) {
 	message = "---DEBUG---\n" + formatTime + "\n" + message + "\n---DEBUG---\n\n"
-	fmt.Fprintf(fileHere, message, a...)
+	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
 }
 
-func Error(message string, a ...interface{}) {
+func (thisLogger logger) Error(message string, a ...interface{}) {
 	message = "---ERROR---\n" + formatTime + "\n" + message + "\n---ERROR---\n\n"
-	fmt.Fprintf(fileHere, message, a...)
-}
-
-func TakeFile(file *os.File) {
-	fileHere = file
+	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
 }
 
 /*
+func TakeFile(file *os.File) {
+	fileHere = file
+}
+*/
+
+func NewLogger(File *os.File, a ...interface{}) logger {
+	return logger{FileToWrite: File}
+} /*
+
 func main() {
 	file, err := os.Create("logfile")
 	if err != nil {
