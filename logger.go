@@ -7,7 +7,8 @@ import (
 )
 
 var formatTime = time.Now().Format(time.RFC1123)
-var fileHere *os.File
+
+//var fileHere *os.File
 
 type Logger struct {
 	FileToWrite *os.File
@@ -18,20 +19,36 @@ func (thisLogger Logger) Info(message string, a ...interface{}) {
 	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
 
 }
+func (thisLogger Logger) InfoConsole(message string, a ...interface{}) {
+	message = "---INFO---\n" + formatTime + "\n" + message + "\n---INFO---\n\n"
+	fmt.Printf(message, a...)
 
+}
 func (thisLogger Logger) Warning(message string, a ...interface{}) {
 	message = "---WARN---\n" + formatTime + "\n" + message + "\n---WARN---\n\n"
 	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
+}
+func (thisLogger Logger) WarningConsole(message string, a ...interface{}) {
+	message = "---WARN---\n" + formatTime + "\n" + message + "\n---WARN---\n\n"
+	fmt.Printf(message, a...)
 }
 
 func (thisLogger Logger) Debug(message string, a ...interface{}) {
 	message = "---DEBUG---\n" + formatTime + "\n" + message + "\n---DEBUG---\n\n"
 	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
 }
+func (thisLogger Logger) DebugConsole(message string, a ...interface{}) {
+	message = "---DEBUG---\n" + formatTime + "\n" + message + "\n---DEBUG---\n\n"
+	fmt.Printf(message, a...)
+}
 
 func (thisLogger Logger) Error(message string, a ...interface{}) {
 	message = "---ERROR---\n" + formatTime + "\n" + message + "\n---ERROR---\n\n"
 	fmt.Fprintf(thisLogger.FileToWrite, message, a...)
+}
+func (thisLogger Logger) ErrorConsole(message string, a ...interface{}) {
+	message = "---ERROR---\n" + formatTime + "\n" + message + "\n---ERROR---\n\n"
+	fmt.Printf(message, a...)
 }
 
 /*
